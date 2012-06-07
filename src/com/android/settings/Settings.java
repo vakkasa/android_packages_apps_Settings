@@ -708,6 +708,15 @@ public class Settings extends PreferenceActivity
             if (id == R.id.operator_settings || id == R.id.manufacturer_settings
                     || id == R.id.device_specific_gesture_settings) {
                 Utils.updateHeaderToSpecificActivityFromMetaDataOrRemove(this, target, header);
+            } else if (id == R.id.advanced_settings) {
+                try{
+                    // Set localized title of advanced settings
+                    header.title = getPackageManager().getApplicationLabel(getPackageManager()
+                            .getPackageInfo("org.omnirom.device", PackageManager.GET_META_DATA).applicationInfo);
+                }
+                catch (NameNotFoundException e){
+                    target.remove(header);  // Package does not exist. Remove entry.
+                }
             } else if (id == R.id.wifi_settings) {
                 // Remove WiFi Settings if WiFi service is not available.
                 if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
